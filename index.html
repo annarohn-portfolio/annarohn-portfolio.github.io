@@ -4,251 +4,461 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anna Rohn | Architecture Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&display=swap" rel="stylesheet">
+    <!-- Geometric font to match the sketch perfectly -->
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #fcfcfc;
-            --text-color: #1a1a1a;
-            --accent-color: #666666;
-            --card-bg: #ffffff;
+            --blueprint-grid: #a2c4e6;
+            --blueprint-bg: #f4f6f8; /* Vellum paper tint */
+            --blueprint-text: #2b3a4a;
+            --card-border: #6d8eaf;
             --font-main: 'Jost', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            --border-radius: 8px;
         }
-        body.dark-mode {
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --accent-color: #aaaaaa;
-            --card-bg: #1e1e1e;
-        }
+
         body {
             margin: 0;
             font-family: var(--font-main);
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
-            -webkit-font-smoothing: antialiased;
+            background-color: var(--blueprint-bg);
+            color: var(--blueprint-text);
+            /* Architecture Drafting Grid Pattern */
+            background-image: 
+                linear-gradient(var(--blueprint-grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center top;
             overflow-x: hidden;
+            overflow-y: hidden; /* Locked until animation finishes */
         }
 
-        /* HERO FULL SPREAD */
+        /* =========================================
+           SCENE 1: THE HERO (PLOTTER & LOGO)
+           ========================================= */
         .hero-viewport {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #050505;
+            z-index: 1000;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #000;
-        }
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.7)), url('comp%20render%20axo.jpg');
-            background-size: cover;
-            background-position: center;
-            transform: scale(1.05);
-            will-change: transform;
+            transform-origin: top center; /* For the tube roll-up */
+            /* 3D Perspective for the roll */
+            perspective: 1000px; 
+            transition: opacity 0.5s ease;
         }
 
-        /* GEOMETRIC TYPOGRAPHY */
-        .brand-overlay {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            pointer-events: none;
-            will-change: transform, opacity;
+        /* The Plotter Image */
+        .plot-container {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
         }
-        .stacked-name {
+        .plot-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Exact filename from your GitHub */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)), url('comp%20render%20axo.jpg');
+            background-size: cover;
+            background-position: center;
+            
+            /* The image starts invisible, revealed by the plotter */
+            clip-path: polygon(0 0, 0% 0, 0% 100%, 0 100%);
+            animation: plot-reveal 3s cubic-bezier(0.25, 1, 0.5, 1) 0.5s forwards;
+        }
+        
+        /* The Moving Plotter Head (Horizontal Line) */
+        .plot-head {
+            position: absolute;
+            top: 0; left: 0;
+            width: 3px;
+            height: 100vh;
+            background: #ffffff;
+            box-shadow: 0 0 15px 2px rgba(255,255,255,0.8);
+            transform: translateX(-10px);
+            opacity: 0;
+            animation: plot-move 3s cubic-bezier(0.25, 1, 0.5, 1) 0.5s forwards;
+            z-index: 5;
+        }
+
+        @keyframes plot-reveal {
+            to { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+        }
+        @keyframes plot-move {
+            0% { transform: translateX(0); opacity: 1; }
+            95% { transform: translateX(100vw); opacity: 1; }
+            100% { transform: translateX(100vw); opacity: 0; }
+        }
+
+        /* =========================================
+           SCENE 2: LOGO BIRTH (Vertical Line)
+           ========================================= */
+        .logo-wrap {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* The white vertical line that grows */
+        .center-line {
+            width: 3px;
+            height: 0;
+            background: #ffffff;
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            animation: grow-line 1s cubic-bezier(0.8, 0, 0.2, 1) 3.8s forwards;
+            z-index: 15;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+        @keyframes grow-line { to { height: 40vh; } }
+
+        /* The typography containers */
+        .name-container {
+            display: flex;
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 14;
+        }
+        .half-left, .half-right {
+            overflow: hidden; /* Hides text until it slides out */
             display: flex;
             flex-direction: column;
-            align-items: center;
-            color: #ffffff;
-            line-height: 0.9;
-        }
-        .stacked-name .first, .stacked-name .last {
             font-size: clamp(4rem, 12vw, 10rem);
             font-weight: 300;
             letter-spacing: 0.15em;
-            margin-right: -0.15em;
+            line-height: 0.9;
             text-transform: uppercase;
+            color: white;
+            text-shadow: 0px 4px 15px rgba(0,0,0,0.4);
+        }
+        .half-left {
+            align-items: flex-end;
+            padding-right: 8px; /* Gap from center line */
+        }
+        .half-right {
+            align-items: flex-start;
+            padding-left: 8px; /* Gap from center line */
+            margin-left: -0.15em; /* Optical balance for tracking */
         }
 
-        /* NAV HEADER */
+        /* The actual text blocks inside the hidden overflows */
+        .half-left .word, .half-right .word { display: block; }
+        
+        .half-left .word {
+            transform: translateX(100%);
+            animation: slide-left 1.2s cubic-bezier(0.2, 1, 0.3, 1) 4.6s forwards;
+        }
+        .half-right .word {
+            transform: translateX(-100%);
+            animation: slide-right 1.2s cubic-bezier(0.2, 1, 0.3, 1) 4.6s forwards;
+        }
+        
+        @keyframes slide-left { to { transform: translateX(0); } }
+        @keyframes slide-right { to { transform: translateX(0); } }
+
+        .hint {
+            position: absolute;
+            bottom: 40px;
+            color: white;
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fade-in-hint 2s ease 6.5s forwards, bounce 2s infinite 6.5s;
+        }
+        @keyframes fade-in-hint { to { opacity: 0.7; } }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* =========================================
+           SCENE 3: THE TUBE ROLL-UP ANIMATION
+           ========================================= */
+        /* Triggered via JS when user interacts */
+        .hero-viewport.roll-away {
+            animation: roll-into-tube 1.4s cubic-bezier(0.5, 0, 0.1, 1) forwards;
+        }
+        @keyframes roll-into-tube {
+            0% { transform: rotateX(0deg) scaleY(1); opacity: 1; }
+            40% { transform: rotateX(-50deg) scaleY(0.4) translateY(-10vh); opacity: 1; border-radius: 200px; }
+            100% { transform: rotateX(-90deg) scaleY(0.01) translateY(-100vh); opacity: 0; border-radius: 500px; }
+        }
+
+
+        /* =========================================
+           SCENE 4: BLUEPRINT PORTFOLIO
+           ========================================= */
+        .portfolio-wrapper {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.5s ease, transform 1.5s ease;
+            min-height: 100vh;
+            display: none; /* Prevents interaction until hero rolls away */
+            padding-top: 6rem;
+        }
+        .portfolio-wrapper.visible {
+            opacity: 1;
+            transform: translateY(0);
+            display: block;
+        }
+
         header {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+            top: 0; left: 0; width: 100%;
+            padding: 1.5rem 5%;
             box-sizing: border-box;
-            padding: 2rem 5%;
+            background: rgba(244, 246, 248, 0.9);
+            backdrop-filter: blur(5px);
+            border-bottom: 2px solid var(--card-border);
+            z-index: 500;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-            color: #fff;
-            mix-blend-mode: difference;
         }
-        header h2 { font-size: 1rem; letter-spacing: 3px; font-weight: 400; margin: 0; }
-        
-        .dark-toggle {
-            cursor: pointer;
-            background: transparent;
-            border: 1px solid currentColor;
-            color: currentColor;
-            padding: 0.5rem 1.5rem;
-            font-family: var(--font-main);
-            border-radius: 20px;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.8rem;
-        }
-        .dark-toggle:hover { background: #fff; color: #000; }
-
-        .scroll-hint {
-            position: absolute;
-            bottom: 3rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 20;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.75rem;
-            text-transform: uppercase;
+        header h2 {
+            margin: 0;
+            font-weight: 500;
             letter-spacing: 4px;
-            animation: bounce 2s infinite;
-        }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
-            40% { transform: translate(-50%, -10px); }
-            60% { transform: translate(-50%, -5px); }
+            color: var(--blueprint-text);
         }
 
-        /* PORTFOLIO GRID */
-        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; padding: 5rem 5% 3rem 5%; max-width: 1400px; margin: 0 auto; }
-        .project-card { background-color: var(--card-bg); border-radius: var(--border-radius); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .project-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
-        .project-card img { width: 100%; height: 250px; object-fit: cover; display: block; border-bottom: 1px solid #eee; }
-        .project-info { padding: 1.5rem; }
-        .project-info h3 { font-size: 1.3rem; margin: 0 0 0.5rem 0; text-transform: uppercase; letter-spacing: 1px; font-weight: 400;}
-        .project-info p { font-size: 0.95rem; color: var(--accent-color); margin: 0;}
+        /* The organized paper grid layout */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 4rem;
+            padding: 2rem 5% 6rem 5%;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        /* Paper-like cards */
+        .project-card {
+            background-color: #ffffff;
+            border: 1px solid var(--card-border);
+            padding: 1rem;
+            position: relative;
+            box-shadow: 5px 5px 15px rgba(43, 58, 74, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 10px 10px 25px rgba(43, 58, 74, 0.15);
+        }
         
-        /* RESUME */
-        .resume { padding: 5rem 5%; background-color: var(--card-bg); border-top: 1px solid #eee; }
-        .resume-content { max-width: 800px; margin: 0 auto; }
-        .resume-content h2 { font-size: 2rem; margin: 0 0 1.5rem 0; letter-spacing: 2px; text-transform: uppercase; font-weight: 400;}
-        .resume-section { margin-bottom: 2rem; }
-        .resume-section h4 { font-size: 1.1rem; margin: 0 0 0.5rem 0; text-transform: uppercase; letter-spacing: 1px; font-weight: 400;}
-        .resume-section p { margin: 0 0 1rem 0; color: var(--accent-color); }
-        footer { padding: 3rem 5%; text-align: center; border-top: 1px solid var(--accent-color); }
+        /* Architecture drafting registration marks (crosshairs on corners) */
+        .project-card::before, .project-card::after {
+            content: ''; position: absolute; width: 10px; height: 10px; border: 1px solid var(--card-border);
+        }
+        .project-card::before { top: 4px; left: 4px; border-right: none; border-bottom: none; }
+        .project-card::after { bottom: 4px; right: 4px; border-left: none; border-top: none; }
+
+        .project-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border: 1px solid #e0e0e0;
+            filter: grayscale(10%) contrast(1.1); /* Gives slightly more of a technical print feel */
+        }
+        .project-info {
+            padding: 1.5rem 0.5rem 0.5rem 0.5rem;
+        }
+        .project-info h3 {
+            font-size: 1.2rem;
+            margin: 0 0 0.5rem 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid var(--blueprint-grid);
+            padding-bottom: 0.5rem;
+        }
+        .project-info p {
+            font-size: 0.95rem;
+            color: #4a5d70;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .resume-section {
+            padding: 4rem 5%;
+            max-width: 900px;
+            margin: 0 auto 4rem auto;
+            background: #fff;
+            border: 1px solid var(--card-border);
+            box-shadow: 5px 5px 15px rgba(43, 58, 74, 0.1);
+            position: relative;
+        }
+        .resume-section h2 {
+            font-size: 2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--card-border);
+            padding-bottom: 1rem;
+            margin-top: 0;
+        }
+        .resume-block { margin-bottom: 2.5rem; }
+        .resume-block h4 {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin: 0 0 0.5rem 0;
+            color: #3b5066;
+        }
+        .resume-block p {
+            margin: 0 0 1rem 0;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem;
+            border-top: 2px solid var(--card-border);
+            background: #fff;
+        }
     </style>
 </head>
-<body class="dark-mode">
-    <header>
-        <h2>ANNA ROHN</h2>
-        <button class="dark-toggle" onclick="document.body.classList.toggle('dark-mode')">Toggle Mode</button>
-    </header>
+<body>
 
-    <section class="hero-viewport" id="hero">
-        <div class="hero-bg"></div>
-        <div class="brand-overlay">
-            <div class="stacked-name">
-                <span class="first">ANNA</span>
-                <span class="last">ROHN</span>
-            </div>
+    <!-- SCENE 1 & 2: THE PLOTTER AND LOGO -->
+    <div class="hero-viewport" id="hero">
+        <div class="plot-container">
+            <div class="plot-image"></div>
+            <div class="plot-head"></div>
         </div>
-        <div class="scroll-hint">Scroll to explore</div>
-    </section>
 
-    <section class="portfolio-grid" id="work">
-        <div class="project-card">
-            <img src="https://placehold.co/800x600/eeeeee/999999?text=BioReference+Laboratory" alt="BioReference Laboratory">
-            <div class="project-info">
-                <h3>BioReference Laboratory</h3>
-                <p>Comprehensive Studio, Spring 2026. Biomedical teaching and wet lab facility focusing on mass timber construction and climate-responsive shading facades.</p>
+        <div class="logo-wrap">
+            <div class="center-line"></div>
+            <div class="name-container">
+                <div class="half-left">
+                    <span class="word">AN</span>
+                    <span class="word">RO</span>
+                </div>
+                <div class="half-right">
+                    <span class="word">NA</span>
+                    <span class="word">HN</span>
+                </div>
             </div>
         </div>
-        <div class="project-card">
-            <img src="https://placehold.co/800x600/eeeeee/999999?text=Deep+Eddy+School+of+Music" alt="Deep Eddy School of Music">
-            <div class="project-info">
-                <h3>Deep Eddy School of Music</h3>
-                <p>Design 3, Fall 2024. "Form follows circulation" - a musical education space integrating indoor and outdoor spaces through careful grading and fluid movement.</p>
-            </div>
-        </div>
-        <div class="project-card">
-            <img src="https://placehold.co/800x600/eeeeee/999999?text=Startup+Lions+Campus" alt="Startup Lions Campus Kenya">
-            <div class="project-info">
-                <h3>Startup Lions Campus Kenya</h3>
-                <p>Design 4, Spring 2025. Precedent analysis decoding spatial structure, formal articulation, and the integration of local construction techniques.</p>
-            </div>
-        </div>
-        <div class="project-card">
-            <img src="https://placehold.co/800x600/eeeeee/999999?text=Senegal+Community+Acupuncture" alt="Senegal Community Acupuncture">
-            <div class="project-info">
-                <h3>Senegal Community Acupuncture</h3>
-                <p>Design 4, Spring 2025. Multi-use healthcare, gymnasium, and housing campus featuring a dynamic double-roof system for natural cross-ventilation.</p>
-            </div>
-        </div>
-        <div class="project-card">
-            <img src="https://placehold.co/800x600/eeeeee/999999?text=Adaptation" alt="Adaptation">
-            <div class="project-info">
-                <h3>Adaptation</h3>
-                <p>Comprehensive Design, Fall 2025. Urban autopsy of decaying architecture. Selected for the cover of Texas Architect magazine's Spring 2026 issue.</p>
-            </div>
-        </div>
-        <div class="project-card">
-            <img src="https://placehold.co/800x600/eeeeee/999999?text=Measure+Twice" alt="Measure Twice">
-            <div class="project-info">
-                <h3>Measure Twice</h3>
-                <p>Comprehensive Design, Spring 2026. A civic material repository organizing flows of salvaged materials while registering contradictions of classification and reuse.</p>
-            </div>
-        </div>
-    </section>
+        
+        <div class="hint">Press any key or click to enter</div>
+    </div>
 
-    <section class="resume">
-        <div class="resume-content">
+
+    <!-- SCENE 4: BLUEPRINT PORTFOLIO -->
+    <div class="portfolio-wrapper" id="portfolio">
+        <header>
+            <h2>ANNA ROHN</h2>
+            <h2>PORTFOLIO 2026</h2>
+        </header>
+
+        <section class="portfolio-grid">
+            <div class="project-card">
+                <img src="https://placehold.co/800x600/eeeeee/999999?text=BioReference+Laboratory" alt="BioReference Laboratory">
+                <div class="project-info">
+                    <h3>BioReference Laboratory</h3>
+                    <p>Comprehensive Studio, Spring 2026. Biomedical teaching and wet lab facility focusing on mass timber construction and climate-responsive shading facades.</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="https://placehold.co/800x600/eeeeee/999999?text=Deep+Eddy+School+of+Music" alt="Deep Eddy School of Music">
+                <div class="project-info">
+                    <h3>Deep Eddy School of Music</h3>
+                    <p>Design 3, Fall 2024. "Form follows circulation" - a musical education space integrating indoor and outdoor spaces through careful grading and fluid movement.</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="https://placehold.co/800x600/eeeeee/999999?text=Startup+Lions+Campus" alt="Startup Lions Campus Kenya">
+                <div class="project-info">
+                    <h3>Startup Lions Campus Kenya</h3>
+                    <p>Design 4, Spring 2025. Precedent analysis decoding spatial structure, formal articulation, and the integration of local construction techniques.</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="https://placehold.co/800x600/eeeeee/999999?text=Senegal+Community+Acupuncture" alt="Senegal Community Acupuncture">
+                <div class="project-info">
+                    <h3>Senegal Community Acupuncture</h3>
+                    <p>Design 4, Spring 2025. Multi-use healthcare, gymnasium, and housing campus featuring a dynamic double-roof system for natural cross-ventilation.</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="https://placehold.co/800x600/eeeeee/999999?text=Adaptation" alt="Adaptation">
+                <div class="project-info">
+                    <h3>Adaptation</h3>
+                    <p>Comprehensive Design, Fall 2025. Urban autopsy of decaying architecture. Selected for the cover of Texas Architect magazine's Spring 2026 issue.</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="https://placehold.co/800x600/eeeeee/999999?text=Measure+Twice" alt="Measure Twice">
+                <div class="project-info">
+                    <h3>Measure Twice</h3>
+                    <p>Comprehensive Design, Spring 2026. A civic material repository organizing flows of salvaged materials while registering contradictions of classification and reuse.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="resume-section">
             <h2>Experience & Education</h2>
-            <hr style="border:0; height:1px; background:var(--accent-color); margin: 1.5rem 0 2.5rem 0;">
-            <div class="resume-section">
+            <div class="resume-block">
                 <h4>Education</h4>
                 <p><strong>University of Texas at Austin School of Architecture</strong><br>Bachelor of Architecture (B.Arch) | 2023–2028</p>
                 <p><strong>Emerging Technologies Architectural Photography Maymester</strong><br>Paris, France | May 2026</p>
                 <p><strong>Institute of Classical Architecture & Art (ICAA)</strong><br>NYC Summer Studio | June–July 2026</p>
             </div>
-            <div class="resume-section">
+            <div class="resume-block">
                 <h4>Professional Experience</h4>
                 <p><strong>Architecture Intern | Design 103 International</strong><br>Bangkok, Thailand | July–August 2025</p>
                 <p><strong>Architecture Intern | BENSLEY</strong><br>Bangkok, Thailand | June–August 2025</p>
                 <p><strong>Architecture Intern | PAI Internship</strong><br>Jakarta, Indonesia | May–August 2024</p>
             </div>
-            <div class="resume-section">
+            <div class="resume-block">
                 <h4>Skills & Fabrication</h4>
                 <p>Rhino, Grasshopper, Sketchup, Blender, Lumion, Enscape, D5, Midjourney, Adobe Creative Cloud (Illustrator, Photoshop, InDesign, Lightroom), 3D Printing, Hand Modeling, Drafting, Acrylic & Watercolor Rendering.</p>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer>
-        <p><strong>Contact:</strong> annasrohn@gmail.com | +1 (678) 986-9789 | Instagram: @anna_rohn_art</p>
-        <p>&copy; 2026 Anna Rohn. All Rights Reserved.</p>
-    </footer>
+        <footer>
+            <p><strong>Contact:</strong> annasrohn@gmail.com | +1 (678) 986-9789 | Instagram: @anna_rohn_art</p>
+            <p>&copy; 2026 Anna Rohn.</p>
+        </footer>
+    </div>
 
+    <!-- THE JAVASCRIPT FOR THE TUBE ROLL TRIGGER -->
     <script>
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            const bg = document.querySelector('.hero-bg');
-            const overlay = document.querySelector('.brand-overlay');
-            const hint = document.querySelector('.scroll-hint');
+        let hasInteracted = false;
+        
+        function triggerRollUp() {
+            if(hasInteracted) return;
+            hasInteracted = true;
             
-            bg.style.transform = `translateY(${scrollY * 0.3}px) scale(1.05)`;
-            overlay.style.transform = `translateY(${scrollY * 0.6}px)`;
-            overlay.style.opacity = Math.max(1 - (scrollY / 400), 0);
-            hint.style.opacity = Math.max(1 - (scrollY / 200), 0);
-        });
+            // 1. Play the 3D Roll-up animation on the hero
+            const hero = document.getElementById('hero');
+            hero.classList.add('roll-away');
+            
+            // 2. Make the portfolio visible and fade it in
+            const portfolio = document.getElementById('portfolio');
+            portfolio.classList.add('visible');
+            
+            // 3. Unlock scrolling so user can scroll down the page
+            document.body.style.overflowY = 'auto';
+            
+            // 4. Remove hero from DOM after animation finishes so it doesn't block clicks
+            setTimeout(() => {
+                hero.style.display = 'none';
+            }, 1500);
+        }
+
+        // Listen for ANY interaction to trigger the transition
+        window.addEventListener('keydown', triggerRollUp);
+        window.addEventListener('mousedown', triggerRollUp);
+        window.addEventListener('wheel', triggerRollUp);
+        window.addEventListener('touchstart', triggerRollUp);
     </script>
 </body>
 </html>
