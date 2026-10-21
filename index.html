@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anna Rohn | Architecture Portfolio</title>
+    <style>
+        :root {
+            /* 🎨 CUSTOMIZATION PANEL */
+            --bg-color: #fcfcfc;
+            --text-color: #1a1a1a;
+            --accent-color: #666666;
+            --card-bg: #ffffff;
+            --font-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --border-radius: 8px;
+        }
+        body.dark-mode {
+            /* 🌙 DARK MODE COLORS */
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --accent-color: #aaaaaa;
+            --card-bg: #1e1e1e;
+        }
+        body {
+            margin: 0;
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+            -webkit-font-smoothing: antialiased;
+        }
+        header {
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--accent-color);
+        }
+        h1, h2, h3 {
+            font-weight: 400;
+            margin: 0;
+        }
+        .hero {
+            padding: 6rem 5%;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 650px;
+            margin: 0 auto;
+            color: var(--accent-color);
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 3rem;
+            padding: 3rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .project-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        .project-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid #eee;
+        }
+        .project-info {
+            padding: 1.5rem;
+        }
+        .project-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .project-info p {
+            font-size: 0.95rem;
+            color: var(--accent-color);
+        }
+        .resume {
+            padding: 5rem 5%;
+            background-color: var(--card-bg);
+            border-top: 1px solid #eee;
+        }
+        .resume-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .resume-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .resume-section {
+            margin-bottom: 2rem;
+        }
+        .resume-section h4 {
+            font-size: 1.1rem;
+            margin: 0 0 0.5rem 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .resume-section p {
+            margin: 0 0 1rem 0;
+            color: var(--accent-color);
+        }
+        footer {
+            padding: 3rem 5%;
+            text-align: center;
+            border-top: 1px solid var(--accent-color);
+        }
+        .dark-toggle {
+            cursor: pointer;
+            background: transparent;
+            border: 1px solid var(--text-color);
+            color: var(--text-color);
+            padding: 0.5rem 1.5rem;
+            font-family: var(--font-main);
+            border-radius: 20px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+        }
+        .dark-toggle:hover {
+            background: var(--text-color);
+            color: var(--bg-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>ANNA ROHN</h2>
+        <button class="dark-toggle" onclick="document.body.classList.toggle('dark-mode')">Toggle Dark Mode</button>
+    </header>
+
+    <section class="hero">
+        <h1>Anna Rohn</h1>
+        <p>B.Arch Candidate at The University of Texas at Austin School of Architecture. Showcasing selected works in architectural design, material analysis, and structural articulation.</p>
+    </section>
+
+    <section class="portfolio-grid" id="work">
+        <!-- Project 1 -->
+        <div class="project-card">
+            <!-- REPLACE SRC WITH YOUR IMAGE -->
+            <img src="https://placehold.co/800x600/eeeeee/999999?text=BioReference+Laboratory" alt="BioReference Laboratory">
+            <div class="project-info">
+                <h3>BioReference Laboratory</h3>
+                <p>Comprehensive Studio, Spring 2026. Biomedical teaching and wet lab facility focusing on mass timber construction and climate-responsive shading facades.</p>
+            </div>
+        </div>
+        <!-- Project 2 -->
+        <div class="project-card">
+            <!-- REPLACE SRC WITH YOUR IMAGE -->
+            <img src="https://placehold.co/800x600/eeeeee/999999?text=Deep+Eddy+School+of+Music" alt="Deep Eddy School of Music">
+            <div class="project-info">
+                <h3>Deep Eddy School of Music</h3>
+                <p>Design 3, Fall 2024. "Form follows circulation" - a musical education space integrating indoor and outdoor spaces through careful grading and fluid movement.</p>
+            </div>
+        </div>
+        <!-- Project 3 -->
+        <div class="project-card">
+            <!-- REPLACE SRC WITH YOUR IMAGE -->
+            <img src="https://placehold.co/800x600/eeeeee/999999?text=Startup+Lions+Campus" alt="Startup Lions Campus Kenya">
+            <div class="project-info">
+                <h3>Startup Lions Campus Kenya</h3>
+                <p>Design 4, Spring 2025. Precedent analysis decoding spatial structure, formal articulation, and the integration of local construction techniques.</p>
+            </div>
+        </div>
+        <!-- Project 4 -->
+        <div class="project-card">
+            <!-- REPLACE SRC WITH YOUR IMAGE -->
+            <img src="https://placehold.co/800x600/eeeeee/999999?text=Senegal+Community+Acupuncture" alt="Senegal Community Acupuncture">
+            <div class="project-info">
+                <h3>Senegal Community Acupuncture</h3>
+                <p>Design 4, Spring 2025. Multi-use healthcare, gymnasium, and housing campus featuring a dynamic double-roof system for natural cross-ventilation.</p>
+            </div>
+        </div>
+        <!-- Project 5 -->
+        <div class="project-card">
+            <!-- REPLACE SRC WITH YOUR IMAGE -->
+            <img src="https://placehold.co/800x600/eeeeee/999999?text=Adaptation" alt="Adaptation">
+            <div class="project-info">
+                <h3>Adaptation</h3>
+                <p>Comprehensive Design, Fall 2025. Urban autopsy of decaying architecture. Selected for the cover of Texas Architect magazine's Spring 2026 issue.</p>
+            </div>
+        </div>
+        <!-- Project 6 -->
+        <div class="project-card">
+            <!-- REPLACE SRC WITH YOUR IMAGE -->
+            <img src="https://placehold.co/800x600/eeeeee/999999?text=Measure+Twice" alt="Measure Twice">
+            <div class="project-info">
+                <h3>Measure Twice</h3>
+                <p>Comprehensive Design, Spring 2026. A civic material repository organizing flows of salvaged materials while registering contradictions of classification and reuse.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="resume">
+        <div class="resume-content">
+            <h2>Experience & Education</h2>
+            <hr style="border:0; height:1px; background:var(--accent-color); margin: 1.5rem 0 2.5rem 0;">
+            
+            <div class="resume-section">
+                <h4>Education</h4>
+                <p><strong>University of Texas at Austin School of Architecture</strong><br>
+                Bachelor of Architecture (B.Arch) | 2023–2028</p>
+                <p><strong>Emerging Technologies Architectural Photography Maymester</strong><br>
+                Paris, France | May 2026</p>
+                <p><strong>Institute of Classical Architecture & Art (ICAA)</strong><br>
+                NYC Summer Studio | June–July 2026</p>
+            </div>
+            
+            <div class="resume-section">
+                <h4>Professional Experience</h4>
+                <p><strong>Architecture Intern | Design 103 International</strong><br>
+                Bangkok, Thailand | July–August 2025</p>
+                <p><strong>Architecture Intern | BENSLEY</strong><br>
+                Bangkok, Thailand | June–August 2025</p>
+                <p><strong>Architecture Intern | PAI Internship</strong><br>
+                Jakarta, Indonesia | May–August 2024</p>
+            </div>
+
+            <div class="resume-section">
+                <h4>Skills & Fabrication</h4>
+                <p>Rhino, Grasshopper, Sketchup, Blender, Lumion, Enscape, D5, Midjourney, Adobe Creative Cloud (Illustrator, Photoshop, InDesign, Lightroom), 3D Printing, Hand Modeling, Drafting, Acrylic & Watercolor Rendering.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p><strong>Contact:</strong> annasrohn@gmail.com | +1 (678) 986-9789 | Instagram: @anna_rohn_art</p>
+        <p>&copy; 2026 Anna Rohn. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
