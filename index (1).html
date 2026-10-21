@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anna Rohn | Architecture Portfolio</title>
+    <!-- Importing a beautiful geometric font (Jost) to match your sketch -->
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fcfcfc;
+            --text-color: #1a1a1a;
+            --accent-color: #666666;
+            --card-bg: #ffffff;
+            --font-main: 'Jost', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --border-radius: 8px;
+        }
+        body.dark-mode {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --accent-color: #aaaaaa;
+            --card-bg: #1e1e1e;
+        }
+        body {
+            margin: 0;
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* 🎥 HERO FULL SPREAD */
+        .hero-viewport {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+        }
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Uses the exact image filename you provided with a gradient overlay to ensure text is legible */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6)), url('comp%20render%20axo_2.jpg');
+            background-size: cover;
+            background-position: center;
+            transform: scale(1.05);
+            will-change: transform;
+        }
+
+        /* 🔠 GEOMETRIC TYPOGRAPHY */
+        .brand-overlay {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            pointer-events: none;
+            will-change: transform, opacity;
+        }
+        .stacked-name {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #ffffff;
+            line-height: 0.9;
+        }
+        .stacked-name .first, .stacked-name .last {
+            font-size: clamp(4rem, 12vw, 10rem);
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            margin-right: -0.15em; /* Compensates for tracking so it centers perfectly */
+            text-transform: uppercase;
+        }
+
+        /* Nav Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            color: #fff;
+            mix-blend-mode: difference;
+        }
+        header h2 { font-size: 1rem; letter-spacing: 3px; font-weight: 400; margin: 0; }
+        
+        .dark-toggle {
+            cursor: pointer;
+            background: transparent;
+            border: 1px solid currentColor;
+            color: currentColor;
+            padding: 0.5rem 1.5rem;
+            font-family: var(--font-main);
+            border-radius: 20px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+        }
+        .dark-toggle:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+            40% { transform: translate(-50%, -10px); }
+            60% { transform: translate(-50%, -5px); }
+        }
+
+        /* Rest of the portfolio */
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; padding: 5rem 5% 3rem 5%; max-width: 1400px; margin: 0 auto; }
+        .project-card { background-color: var(--card-bg); border-radius: var(--border-radius); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .project-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        .project-card img { width: 100%; height: 250px; object-fit: cover; display: block; border-bottom: 1px solid #eee; }
+        .project-info { padding: 1.5rem; }
+        .project-info h3 { font-size: 1.3rem; margin: 0 0 0.5rem 0; text-transform: uppercase; letter-spacing: 1px; font-weight: 400;}
+        .project-info p { font-size: 0.95rem; color: var(--accent-color); margin: 0;}
+        .resume { padding: 5rem 5%; background-color: var(--card-bg); border-top: 1px solid #eee; }
+        .resume-content { max-width: 800px; margin: 0 auto; }
+        .resume-content h2 { font-size: 2rem; margin: 0 0 1.5rem 0; letter-spacing: 2px; text-transform: uppercase; font-weight: 400;}
+        .resume-section { margin-bottom: 2rem; }
+        .resume-section h4 { font-size: 1.1rem; margin: 0 0 0.5rem 0; text-transform: uppercase; letter-spacing: 1px; font-weight: 400;}
+        .resume-section p { margin: 0 0 1rem 0; color: var(--accent-color); }
+        footer { padding: 3rem 5%; text-align: center; border-top: 1px solid var(--accent-color); }
+    </style>
+</head>
+<body class="dark-mode">
+    <header>
+        <h2>ANNA ROHN</h2>
+        <button class="dark-toggle" onclick="document.body.classList.toggle('dark-mode')">Toggle Mode</button>
+    </header>
+
+    <section class="hero-viewport" id="hero">
+        <div class="hero-bg"></div>
+        <div class="brand-overlay">
+            <div class="stacked-name">
+                <span class="first">ANNA</span>
+                <span class="last">ROHN</span>
+            </div>
+        </div>
+        <div class="scroll-hint">Scroll to explore</div>
+    </section>
+
+    <!-- Project Cards Section -->
+    <section class="portfolio-grid" id="work">
+        <div class="project-card">
+            <img src="https://placehold.co/800x600/eeeeee/999999?text=BioReference+Laboratory" alt="BioReference Laboratory">
+            <div class="project-info">
+                <h3>BioReference Laboratory</h3>
+                <p>Comprehensive Studio, Spring 2026. Biomedical teaching and wet lab facility focusing on mass timber construction and climate-responsive shading facades.</p>
+            </div>
+        </div>
+        <div class="project-card">
+            <img src="https://placehold.co/800x600/eeeeee/999999?text=Deep+Eddy+School+of+Music" alt="Deep Eddy School of Music">
+            <div class="project-info">
+                <h3>Deep Eddy School of Music</h3>
+                <p>Design 3, Fall 2024. "Form follows circulation" - a musical education space integrating indoor and outdoor spaces through careful grading and fluid movement.</p>
+            </div>
+        </div>
+        <div class="project-card">
+            <img src="https://placehold.co/800x600/eeeeee/999999?text=Startup+Lions+Campus" alt="Startup Lions Campus Kenya">
+            <div class="project-info">
+                <h3>Startup Lions Campus Kenya</h3>
+                <p>Design 4, Spring 2025. Precedent analysis decoding spatial structure, formal articulation, and the integration of local construction techniques.</p>
+            </div>
+        </div>
+        <div class="project-card">
+            <img src="https://placehold.co/800x600/eeeeee/999999?text=Senegal+Community+Acupuncture" alt="Senegal Community Acupuncture">
+            <div class="project-info">
+                <h3>Senegal Community Acupuncture</h3>
+                <p>Design 4, Spring 2025. Multi-use healthcare, gymnasium, and housing campus featuring a dynamic double-roof system for natural cross-ventilation.</p>
+            </div>
+        </div>
+        <div class="project-card">
+            <img src="https://placehold.co/800x600/eeeeee/999999?text=Adaptation" alt="Adaptation">
+            <div class="project-info">
+                <h3>Adaptation</h3>
+                <p>Comprehensive Design, Fall 2025. Urban autopsy of decaying architecture. Selected for the cover of Texas Architect magazine's Spring 2026 issue.</p>
+            </div>
+        </div>
+        <div class="project-card">
+            <img src="https://placehold.co/800x600/eeeeee/999999?text=Measure+Twice" alt="Measure Twice">
+            <div class="project-info">
+                <h3>Measure Twice</h3>
+                <p>Comprehensive Design, Spring 2026. A civic material repository organizing flows of salvaged materials while registering contradictions of classification and reuse.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="resume">
+        <div class="resume-content">
+            <h2>Experience & Education</h2>
+            <hr style="border:0; height:1px; background:var(--accent-color); margin: 1.5rem 0 2.5rem 0;">
+            
+            <div class="resume-section">
+                <h4>Education</h4>
+                <p><strong>University of Texas at Austin School of Architecture</strong><br>
+                Bachelor of Architecture (B.Arch) | 2023–2028</p>
+                <p><strong>Emerging Technologies Architectural Photography Maymester</strong><br>
+                Paris, France | May 2026</p>
+                <p><strong>Institute of Classical Architecture & Art (ICAA)</strong><br>
+                NYC Summer Studio | June–July 2026</p>
+            </div>
+            
+            <div class="resume-section">
+                <h4>Professional Experience</h4>
+                <p><strong>Architecture Intern | Design 103 International</strong><br>
+                Bangkok, Thailand | July–August 2025</p>
+                <p><strong>Architecture Intern | BENSLEY</strong><br>
+                Bangkok, Thailand | June–August 2025</p>
+                <p><strong>Architecture Intern | PAI Internship</strong><br>
+                Jakarta, Indonesia | May–August 2024</p>
+            </div>
+
+            <div class="resume-section">
+                <h4>Skills & Fabrication</h4>
+                <p>Rhino, Grasshopper, Sketchup, Blender, Lumion, Enscape, D5, Midjourney, Adobe Creative Cloud (Illustrator, Photoshop, InDesign, Lightroom), 3D Printing, Hand Modeling, Drafting, Acrylic & Watercolor Rendering.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p><strong>Contact:</strong> annasrohn@gmail.com | +1 (678) 986-9789 | Instagram: @anna_rohn_art</p>
+        <p>&copy; 2026 Anna Rohn. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Listen for scroll events to create the parallax and fade animations
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const bg = document.querySelector('.hero-bg');
+            const overlay = document.querySelector('.brand-overlay');
+            const hint = document.querySelector('.scroll-hint');
+            
+            // Background moves down slightly to create depth (parallax)
+            bg.style.transform = `translateY(${scrollY * 0.3}px) scale(1.05)`;
+            
+            // Text moves up faster than the background and fades out
+            overlay.style.transform = `translateY(${scrollY * 0.6}px)`;
+            overlay.style.opacity = Math.max(1 - (scrollY / 400), 0);
+            
+            // "Scroll to explore" hint fades out very quickly
+            hint.style.opacity = Math.max(1 - (scrollY / 200), 0);
+        });
+    </script>
+</body>
+</html>
